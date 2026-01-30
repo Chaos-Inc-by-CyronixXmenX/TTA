@@ -3,6 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <new>
+#include <iostream>
 
 #include "hash.h"
 
@@ -51,7 +52,8 @@ namespace Crypto {
 
   cn_context::~cn_context() {
     if (munmap(data, MAP_SIZE) != 0) {
-      throw bad_alloc();
+      // Cannot throw in destructor, just log error to stderr
+      std::cerr << "Error unmapping memory in cn_context destructor" << std::endl;
     }
   }
 
